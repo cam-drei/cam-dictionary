@@ -1,21 +1,32 @@
 import React from 'react';
-import Portal from '@material-ui/core/Portal';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
 
 const useStyles = makeStyles(theme => ({
-  alert: {
-    padding: theme.spacing(1),
-    margin: theme.spacing(1, 0),
-    border: '1px solid',
-    bordearColor: theme.palette.text.primary,
+
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  dense: {
+    marginTop: theme.spacing(2),
+  },
+  menu: {
+    width: 200,
+  },
+
+  
 }));
 
 export default function SimplePortal() {
   const [show, setShow] = React.useState(false);
-  const container = React.useRef(null);
+  // const container = React.useRef(null);
   const classes = useStyles();
 
   function handleClick() {
@@ -24,16 +35,37 @@ export default function SimplePortal() {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClick}>{show ? 'Results' : 'Translate'}</Button>
-      <div className={classes.alert}>
-        <Typography>Input your scipts</Typography>
+      <Button variant="contained" color="primary" onClick={handleClick}>{show ? 'Reset' : 'Translate'}</Button>
+
+        <form className={classes.container} noValidate>
+          <TextField 
+            id="outlined-search"
+            label="Input your text"
+            type="search"
+            multiline
+            rows="4"
+            margin="normal"
+            variant="outlined"
+            fullWidth
+          />  
+        </form>
+
         {show ? (
-          <Portal container={container.current}>
-            <Typography>This is the result</Typography>
-          </Portal>
+          <form className={classes.container} noValidate>
+            <TextField
+              label="This is the result"
+              multiline
+              rows="4"
+              defaultValue="Result here..."
+              margin="normal"
+              variant="outlined" 
+              fullWidth
+              InputProps={{
+                readOnly: true,
+              }}
+            />  
+          </form>
         ) : null}
-      </div>
-      <div className={classes.alert} ref={container} />
     </div>
   );
 }
